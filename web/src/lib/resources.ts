@@ -598,6 +598,7 @@ export const SETTINGS_KEYS = {
   DISPLAY_COLLAPSE_FAVORITES_BY_DEFAULT: 'display.collapseFavoritesByDefault',
   DISPLAY_MODEL_FAVORITES: 'display.modelFavorites',
   LLM_DYNAMIC_SYSTEM_PROMPT: 'llm.dynamicSystemPrompt',
+  LLM_CAVEMAN_THINKING: 'llm.cavemanThinking',
   CACHE_WARMING: 'cache.warming',
   KEYBINDINGS: 'keybindings',
   RETRY_PATTERNS: 'agent.retryPatterns',

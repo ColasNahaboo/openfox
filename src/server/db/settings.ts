@@ -32,6 +32,7 @@ export const SETTINGS_KEYS = {
   DISPLAY_COLLAPSE_FAVORITES_BY_DEFAULT: 'display.collapseFavoritesByDefault',
   DISPLAY_MODEL_FAVORITES: 'display.modelFavorites',
   LLM_DYNAMIC_SYSTEM_PROMPT: 'llm.dynamicSystemPrompt',
+  LLM_CAVEMAN_THINKING: 'llm.cavemanThinking',
   CACHE_WARMING: 'cache.warming',
   KEYBINDINGS: 'keybindings',
   RETRY_PATTERNS: 'agent.retryPatterns',
@@ -77,6 +78,7 @@ export const SETTINGS_DEFAULTS: Record<string, string> = {
   [SETTINGS_KEYS.DISPLAY_COLLAPSE_FAVORITES_BY_DEFAULT]: 'false',
   [SETTINGS_KEYS.DISPLAY_MODEL_FAVORITES]: '[]',
   [SETTINGS_KEYS.LLM_DYNAMIC_SYSTEM_PROMPT]: 'false',
+  [SETTINGS_KEYS.LLM_CAVEMAN_THINKING]: 'false',
   [SETTINGS_KEYS.CACHE_WARMING]: 'false',
   [SETTINGS_KEYS.RETRY_PATTERNS]: JSON.stringify({ patterns: [], maxRetriesPerTurn: 10 }),
   [SETTINGS_KEYS.KEYBINDINGS]: JSON.stringify({
