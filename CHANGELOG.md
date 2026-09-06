@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.139 - 2026-09-06
+
+### Features
+
+- **Caveman thinking mode** — opt-in setting that compresses the agent's reasoning into terse fragments to cut thinking tokens
+
+### Enhancements
+
+- **Pause-in-progress is now obvious** — pulsing pause button while waiting, cancel cross on hover, height matched to Send
+
 ## 2.0.138 - 2026-09-06
 
 ### Features
