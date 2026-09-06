@@ -170,7 +170,7 @@ export interface SessionState {
   retryLLM: (sessionId: string) => void
   exitWorkflow: (sessionId: string) => void
   switchMode: (sessionId: string, mode: SessionMode) => void
-  switchDangerLevel: (sessionId: string, dangerLevel: 'normal' | 'dangerous') => void
+  switchDangerLevel: (sessionId: string, dangerLevel: 'normal' | 'dangerous') => Promise<boolean>
   editCriteria: (sessionId: string, criteria: Criterion[]) => void
   compactContext: (sessionId: string) => void
   setSessionProvider: (

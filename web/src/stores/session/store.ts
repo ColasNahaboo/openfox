@@ -1037,8 +1037,8 @@ export const useSessionStore = create<SessionState>((set, get) => {
       }
     },
 
-    switchDangerLevel: async (sessionId, dangerLevel) => {
-      if (!paneFor(get(), sessionId)?.session) return
+    switchDangerLevel: async (sessionId, dangerLevel): Promise<boolean> => {
+      if (!paneFor(get(), sessionId)?.session) return false
       try {
         const res = await authFetch(`/api/sessions/${sessionId}/danger-level`, {
           method: 'PUT',
@@ -1047,14 +1047,16 @@ export const useSessionStore = create<SessionState>((set, get) => {
         })
         if (!res.ok) {
           console.error('Failed to switch danger level:', await res.json())
-          return
+          return false
         }
         const data = await res.json()
         if (data.session) {
           set((state) => updatePaneSession(state, sessionId, () => data.session))
         }
+        return true
       } catch (error) {
         console.error('Error switching danger level:', error)
+        return false
       }
     },
 

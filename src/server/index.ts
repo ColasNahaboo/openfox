@@ -1324,6 +1324,22 @@ export async function createServerHandle(config: Config): Promise<ServerHandle> 
     }
 
     sessionManager.setDangerLevel(sessionId, dangerLevel)
+
+    // Entering dangerous mode resolves every pending confirmation for the
+    // session (except git_no_verify, which always requires explicit consent),
+    // so sibling tool calls of the same batch continue without prompting again.
+    if (dangerLevel === 'dangerous') {
+      const { autoApprovePendingConfirmationsForSession } = await import('./tools/index.js')
+      const approvedCallIds = autoApprovePendingConfirmationsForSession(sessionId)
+      for (const callId of approvedCallIds) {
+        wssExports.broadcastForSession(sessionId, {
+          type: 'session.confirmation_resolved',
+          sessionId,
+          payload: { sessionId, callId },
+        })
+      }
+    }
+
     const updatedSession = sessionManager.getSession(sessionId)
 
     res.json({ session: toClientSession(updatedSession!) })
