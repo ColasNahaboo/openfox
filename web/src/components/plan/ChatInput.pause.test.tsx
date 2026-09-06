@@ -135,13 +135,21 @@ describe('ChatInput pause/stop buttons', () => {
     expect(stopGenerationMock).not.toHaveBeenCalled()
   })
 
-  it('while pausing (pending) the button stays pressable and cancels the pause', () => {
+  it('while pausing (pending) the button pulses, cancels the pause and shows a cross on hover', () => {
     setPauseState('pending')
     renderChatInput()
 
     const pauseBtn = screen.getByTestId('chat-pause-button')
     expect(pauseBtn).not.toBeDisabled()
-    expect(pauseBtn).toHaveAttribute('title', 'Pausing, waiting for the current turn to finish')
+    expect(pauseBtn).toHaveAttribute('title', 'Cancel pausing')
+    expect(pauseBtn).toHaveAttribute('aria-label', 'Cancel pausing')
+    expect(pauseBtn.className).toContain('animate-pause-pulse')
+
+    const icons = pauseBtn.querySelectorAll('svg')
+    expect(icons).toHaveLength(2)
+    expect(icons[0]?.getAttribute('class')).toContain('group-hover:hidden')
+    expect(icons[1]?.getAttribute('class')).toContain('hidden')
+    expect(icons[1]?.getAttribute('class')).toContain('group-hover:block')
 
     fireEvent.click(pauseBtn)
     expect(resumeGenerationMock).toHaveBeenCalledWith('s1')
@@ -172,6 +180,15 @@ describe('ChatInput pause/stop buttons', () => {
       expect(stopSvg?.getAttribute('class')).toContain('w-4')
       cleanup()
     }
+  })
+
+  it('pause and stop buttons match the send button height (py-2 icon buttons)', () => {
+    renderChatInput()
+
+    const pauseBtn = screen.getByTestId('chat-pause-button')
+    const stopBtn = screen.getByTestId('chat-stop-button')
+    expect(pauseBtn.className).toContain('py-2')
+    expect(stopBtn.className).toContain('py-2')
   })
 
   it('while resuming the button is disabled', () => {

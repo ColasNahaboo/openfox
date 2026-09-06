@@ -17,7 +17,7 @@ import { AttachmentPreview } from '../shared/AttachmentPreview.js'
 import { PromptHistoryList } from '../shared/PromptHistory.js'
 import { RunningIndicator } from '../shared/RunningIndicator'
 import { AutoScrollToggle } from '../shared/AutoScrollToggle'
-import { PauseIcon, PlayIcon, SearchIcon, StopIcon } from '../shared/icons'
+import { PauseIcon, PlayIcon, SearchIcon, StopIcon, XCloseIcon } from '../shared/icons'
 import { WorkflowBar } from './WorkflowBar'
 import { processFile } from '../../lib/file-processing.js'
 import { mimeTypeToExtension, isSupportedMimeType } from '../../lib/attachment-utils.js'
@@ -122,10 +122,7 @@ export function ChatInput({
   )
   const pauseTooltip =
     pauseState === 'pending'
-      ? t({
-          en: 'Pausing, waiting for the current turn to finish',
-          fr: 'Mise en pause, en attente de la fin du tour en cours',
-        })
+      ? t({ en: 'Cancel pausing', fr: 'Annuler la mise en pause' })
       : pauseState === 'paused'
         ? t({ en: 'Paused', fr: 'En pause' })
         : pauseState === 'resuming'
@@ -710,10 +707,17 @@ export function ChatInput({
                   data-testid="chat-pause-button"
                   title={pauseTooltip}
                   aria-label={pauseTooltip}
-                  className="flex items-center justify-center px-3 py-1.5 rounded-l bg-accent-warning/20 text-accent-warning hover:bg-accent-warning/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className={`group flex items-center justify-center px-3 py-2 rounded-l bg-accent-warning/20 text-accent-warning hover:bg-accent-warning/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${
+                    pauseState === 'pending' ? 'animate-pause-pulse' : ''
+                  }`}
                 >
                   {pauseState === 'paused' || pauseState === 'resuming' ? (
                     <PlayIcon className="w-4 h-4" />
+                  ) : pauseState === 'pending' ? (
+                    <>
+                      <PauseIcon className="w-4 h-4 group-hover:hidden" />
+                      <XCloseIcon className="hidden w-4 h-4 group-hover:block" />
+                    </>
                   ) : (
                     <PauseIcon className="w-4 h-4" />
                   )}
@@ -724,7 +728,7 @@ export function ChatInput({
                   data-testid="chat-stop-button"
                   title={t({ en: 'Stop', fr: 'Stopper' })}
                   aria-label={t({ en: 'Stop', fr: 'Stopper' })}
-                  className="flex items-center justify-center px-3 py-1.5 rounded-r bg-accent-error/20 text-accent-error hover:bg-accent-error/30 transition-colors border-l border-black/10 dark:border-white/10"
+                  className="flex items-center justify-center px-3 py-2 rounded-r bg-accent-error/20 text-accent-error hover:bg-accent-error/30 transition-colors border-l border-black/10 dark:border-white/10"
                 >
                   <StopIcon />
                 </button>
